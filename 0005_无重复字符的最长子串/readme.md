@@ -109,3 +109,75 @@ var longestPalindrome = function (s) {
 `dp[i][j]`，`i`、`j`表示从字符串索引中`i`到`j`的子串，`dp[i][j]`为`true`时表示`i`到`j`的子串是回文，最短子串一定是由一个字符组成字符串的情况，因为最短的子串长度为1。
 
 我们考虑字符串长度为2的情况，这个时候`j - i == 1`，如果`s[i] == s[j]`，那么`dp[i][j]`为`true`，再考虑当`len == 3`时，比较`s[i]`是否等于`s[j]`，如果相等时再去考虑比较`i`到`j`这个范围内（即不包括`i`、`j`的范围，开区间）的子串是否是由回文子串组成的，如果是那么`dp[i+1][j-1]`就为`true`，否则为`false`。`false`时，`i`到`j`大的范围的子串就一定不是回文。
+
+### 中心扩散法
+
+```js
+/**
+ * @param {string} s
+ * @return {string}
+ */
+ var longestPalindrome = function (s) {
+  let maxIndex = 0;
+  let maxLength = 1;
+
+  if (s.length == 2) {
+    if (s[0] === s[1]) {
+      return s;
+    } else {
+      return s[0];
+    }
+  }
+
+  if (s.length === 1) {
+    return s;
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    let right = i + 1;
+    let left = i - 1;
+    let count = 1;
+    let index = 0;
+    while (right < s.length && left >= 0) {
+      if (s[right] === s[left]) {
+        count += 2;
+        index = left;
+      }else{
+        break;
+      }
+      right++;
+      left--;
+    }
+    if (count > maxLength) {
+      maxIndex = index;
+      maxLength = count;
+    }
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    let right = i + 1;
+    let left = i;
+    let count = 0;
+    let index = 0;
+    while (right < s.length && left >= 0) {
+      if (s[right] === s[left]) {
+        count += 2;
+        index  = left;
+      }else{
+        break;
+      }
+      right++;
+      left--;
+    }
+
+    if (count > maxLength) {
+      maxIndex = index;
+      maxLength = count;
+    }
+  }
+  return s.substr(maxIndex, maxLength);
+};
+// @lc code=end
+```
+
+中心扩散法从字符向左右进行比较。
