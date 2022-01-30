@@ -29,11 +29,11 @@ var convert = function(s, numRows) {
       arr[j++] += s[i];
     }
 
-    if(j===0){
+    if(j === 0){
       flag = false;
     }
 
-    if(j===numRows-1){
+    if(j === numRows-1){
       flag = true;
     }
     
