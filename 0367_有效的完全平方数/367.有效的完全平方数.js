@@ -12,7 +12,7 @@
 var isPerfectSquare = function(num) {
   let left = 0, right = num;
   while(left<=right){
-    let mid = left + Math.floor((right - left) /2);
+    let mid = left + Math.floor((right - left) / 2);
     let res = mid * mid;
     if(res===num){
       return mid;
