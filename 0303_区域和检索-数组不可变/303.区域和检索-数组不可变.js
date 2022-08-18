@@ -21,7 +21,6 @@ var NumArray = function(nums) {
 
 const sumPreNums = function(nums) {
   const preNums = new Array(nums.length+1).fill(0);
-  // preNums.push(nums[0]);  
   for(let i=1;i<nums.length+1; i++){
     let res = preNums[i-1] + nums[i-1];
     preNums[i]=res;
