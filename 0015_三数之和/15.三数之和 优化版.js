@@ -10,15 +10,19 @@
  * @return {number[][]}
  */
 var threeSum = function(nums) {
-  const binarySearch = (arr, target, res, map) => {
+  const binarySearch = (arr, target, res) => {
     let i = 0, j = arr.length-1;
     while(i<j){
       const result = arr[i] + arr[j];
       if(result ===-target){
         const result = [target, arr[i],arr[j]];
-        if(i>0&&arr[i]!==arr[i-1])
-        // const result = result_.sort((a,b)=>a-b);
-          res.push(result);
+        if(i>0&&arr[i]===arr[i-1]){
+            i++;
+            j--;
+            continue;
+        }
+            
+        res.push(result);
         i++;
         j--;
       }else if(result > -target){
@@ -30,10 +34,12 @@ var threeSum = function(nums) {
   }
   const sortedArr = nums.sort((a,b)=>a-b);
   let res = [];
-  let idMap = new Map();
   for(let i = 0;i<sortedArr.length;i++){
+    if(i>0&&sortedArr[i]===sortedArr[i-1]){
+        continue;
+    }
     const partialArr = [...sortedArr.slice(i+1)];
-    binarySearch(partialArr, sortedArr[i], res, idMap);
+    binarySearch(partialArr, sortedArr[i], res);
   }
   return res;
 };
